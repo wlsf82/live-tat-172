@@ -1,5 +1,5 @@
 describe('EngageSphere API - GET /customers', () => {
-  const baseUrl = 'http://localhost:3001/customers';
+  const baseUrl = `${Cypress.env('API_URL')}/customers`
 
   it('should retrieve customers with default query parameters', () => {
     cy.request(baseUrl).then((response) => {
