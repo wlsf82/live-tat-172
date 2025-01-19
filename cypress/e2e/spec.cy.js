@@ -2,21 +2,21 @@ describe('EngageSphere API - GET /customers', () => {
   const baseUrl = `${Cypress.env('API_URL')}/customers`
 
   it('should retrieve customers with default query parameters', () => {
-    cy.request(baseUrl).then((response) => {
-      expect(response.status).to.eq(200);
-      expect(response.body).to.have.property('customers');
-      expect(response.body.customers).to.be.an('array');
-      expect(response.body).to.have.property('pageInfo');
-      expect(response.body.pageInfo).to.have.property('currentPage', 1);
-      expect(response.body.pageInfo).to.have.property('totalPages');
-      expect(response.body.pageInfo).to.have.property('totalCustomers');
+    cy.request(baseUrl).then(({ status, body }) => {
+      expect(status).to.eq(200);
+      expect(body).to.have.property('customers');
+      expect(body.customers).to.be.an('array');
+      expect(body).to.have.property('pageInfo');
+      expect(body.pageInfo).to.have.property('currentPage', 1);
+      expect(body.pageInfo).to.have.property('totalPages');
+      expect(body.pageInfo).to.have.property('totalCustomers');
     });
   });
 
   it('should have the correct response structure', () => {
-    cy.request(baseUrl).then((response) => {
-      expect(response.status).to.eq(200);
-      response.body.customers.forEach((customer) => {
+    cy.request(baseUrl).then(({ status, body }) => {
+      expect(status).to.eq(200);
+      body.customers.forEach((customer) => {
         expect(customer).to.have.property('id');
         expect(customer).to.have.property('name');
         expect(customer).to.have.property('employees');
@@ -33,7 +33,7 @@ describe('EngageSphere API - GET /customers', () => {
           expect(customer.address).to.have.property('city');
           expect(customer.address).to.have.property('state');
           expect(customer.address).to.have.property('zipCode');
-          expect(customer.address).to.have.property('country'); 
+          expect(customer.address).to.have.property('country');
         }
       });
     });
@@ -60,8 +60,8 @@ describe('EngageSphere API - GET /customers', () => {
         size: 'InvalidSize'
       },
       failOnStatusCode: false
-    }).then((response) => {
-      expect(response.status).to.eq(400);
+    }).then(({ status }) => {
+      expect(status).to.eq(400);
     });
   });
 
@@ -73,8 +73,8 @@ describe('EngageSphere API - GET /customers', () => {
         industry: 'InvalidIndustry'
       },
       failOnStatusCode: false
-    }).then((response) => {
-      expect(response.status).to.eq(400);
+    }).then(({ status }) => {
+      expect(status).to.eq(400);
     });
   });
 });
