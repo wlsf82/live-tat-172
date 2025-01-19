@@ -47,8 +47,21 @@ describe('EngageSphere API - GET /customers', () => {
         page: -1
       },
       failOnStatusCode: false
-    }).then((response) => {
-      expect(response.status).to.eq(400);
+    }).then(({ status }) => {
+      expect(status).to.eq(400);
+    });
+  });
+
+  it('should return 400 Bad Request for invalid limit parameter', () => {
+    cy.request({
+      method: 'GET',
+      url: baseUrl,
+      qs: {
+        limit: 0
+      },
+      failOnStatusCode: false
+    }).then(({ status }) => {
+      expect(status).to.eq(400);
     });
   });
 
